@@ -1,7 +1,7 @@
 import pygame
 import random
 
-# screen parameters
+# screen parameters ewTF
 SIZE = (900, 500)
 screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption('MIS PRIMERAS FIGURAS')
