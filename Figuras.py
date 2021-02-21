@@ -1,7 +1,7 @@
 import pygame
 import random
 
-# screen parameters
+# screen parametersM AND OTHERS
 SIZE = (900, 500)
 screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption('MIS PRIMERAS FIGURAS')
@@ -94,7 +94,7 @@ class GameStage:
         self.stage = 0
         self.actual_stage = 0
         self.card = Card()
-        self.easy_figures = SpriteSheet('Figuras.png')
+        self.easy_figures = SpriteSheet('Figuras1.png')
         self.medium_figures = SpriteSheet('Figuras1.png')
         self.hard_figures = SpriteSheet('Figuras_3d1.png')
         self.tiger = SpriteSheet('animals.png')
