@@ -101,6 +101,10 @@ class GameStage:
         self.frog = SpriteSheet('animals.png')
         self.medal = SpriteSheet('animals.png')
         self.mark = SpriteSheet('marks1.png')
+        self.lifes = []
+        self.lifes.append(SpriteSheet('corazon.png'))
+        self.lifes.append(SpriteSheet('corazon.png'))
+        self.lifes.append(SpriteSheet('corazon.png'))
         self.credits_bg = SpriteSheet('Fondo_geometrico1.png')
         self.figures_ready = True
         self.figures = []
@@ -133,6 +137,7 @@ class GameStage:
             self.actual_figure += 1
             return
         self.errors += 1
+        self.lifes[self.errors -1].update(1)
         draw_img(self.mark.sprites[1], 641 - 250, 271 - 250)
         pygame.display.flip()
         pygame.time.delay(500)
@@ -140,6 +145,11 @@ class GameStage:
 
     # reset values in order to proceed
     def reset(self, stg):
+        i = 0
+        while i < 3:
+            if self.lifes[i].current_sprite == 1:
+                self.lifes[i].update(1)
+            i += 1
         self.stage = stg
         self.actual_stage = stg
         self.errors = 0
@@ -197,6 +207,15 @@ class GameStage:
         self.hard_figures.get_sprite(FX, FY, FX, FY)
         self.hard_figures.get_sprite(FX, FY, FX * 2, FY)
         self.hard_figures.get_sprite(FX - 1, FY, FX * 3, FY)
+        self.lifes[0].get_sprite(42, 42, 0, 0)
+        self.lifes[0].get_sprite(42, 42, 42, 0)
+        self.lifes[0].update(0)
+        self.lifes[1].get_sprite(42, 42, 0, 0)
+        self.lifes[1].get_sprite(42, 42, 42, 0)
+        self.lifes[1].update(0)
+        self.lifes[2].get_sprite(42, 42, 0, 0)
+        self.lifes[2].get_sprite(42, 42, 42, 0)
+        self.lifes[2].update(0)
         self.credits_bg.get_sprite(900, 900, 0, 0)
         self.credits_bg.get_sprite(900, 900, 900, 0)
         self.credits_bg.get_sprite(900, 900, 0, 900)
@@ -237,6 +256,7 @@ class GameStage:
     def draw_figure(self, diff):
         i = 0
         k = 0
+        x = 323
         if diff == 1:
             diff_figures = self.easy_figures
         elif diff == 2:
@@ -245,6 +265,7 @@ class GameStage:
             diff_figures = self.hard_figures
         while i < 3:
             j = 0
+            draw_img(self.lifes[i].image, x, 10)
             while j < 3:
                 if not self.card.guessed[k]:
                     draw_img(diff_figures.sprites[self.card.boxes[k]], int(GX[j] + 49 - 162 / 2),
@@ -254,6 +275,7 @@ class GameStage:
                 j += 1
                 k += 1
             i += 1
+            x += 35
 
     # show credits
     def credits(self, y):
@@ -326,6 +348,7 @@ class GameStage:
                         self.check_figure(8)
                     if 10 <= mouse_pos[0] <= 64 and 37 <= mouse_pos[1] <= 64:
                         self.stage = 0
+                        self.reset(0)
                         return
         if self.corrects == 9:
             self.stage = 5  # takes to victory
@@ -334,9 +357,9 @@ class GameStage:
             self.stage = 6
             return
         self.panda.update(0.08)
-        draw_img(self.panda.image, int(450 / 2 - AX / 2))
+        draw_img(self.panda.image, int(450 / 2 - AX / 2), 70)
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
-        draw_img(text, 450 / 2 - text.get_width() / 2, 300)
+        draw_img(text, 450 / 2 - text.get_width() / 2, 400)
         self.draw_figure(1)
         clock.tick(30)
         pygame.display.flip()
@@ -375,6 +398,7 @@ class GameStage:
                         self.check_figure(-1)
                     if 10 <= mouse_pos[0] <= 64 and 37 <= mouse_pos[1] <= 64:
                         self.stage = 0
+                        self.reset(0)
                         return
         if self.corrects == 9:
             self.stage = 5  # takes to victory
@@ -422,10 +446,11 @@ class GameStage:
                         self.check_figure(7)
                     if 707 <= mouse_pos[0] <= 805 and 342 <= mouse_pos[1] <= 440:
                         self.check_figure(8)
-                    if 166 <= mouse_pos[0] <= 282 and 185 <= mouse_pos[1] <= 497:
+                    if 92 <= mouse_pos[0] <= 306 and 460 <= mouse_pos[1] <= 477:
                         self.check_figure(-1)
                     if 10 <= mouse_pos[0] <= 64 and 37 <= mouse_pos[1] <= 64:
                         self.stage = 0
+                        self.reset(0)
                         return
         if self.corrects == 9:
             self.stage = 5  # takes to victory
