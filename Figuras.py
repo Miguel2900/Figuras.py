@@ -64,15 +64,12 @@ class Card:
         if self.ready:
             if diff == 0:
                 max_range = 8
-                min_range = 0
             elif diff == 1:
                 max_range = 18
-                min_range = 0
             else:
                 max_range = 26
-                min_range = 0
             while j < 9:
-                rn = random.randint(min_range, max_range)
+                rn = random.randint(0, max_range)
                 if rn not in self.boxes:
                     self.boxes.append(rn)
                     self.guessed.append(False)
