@@ -133,7 +133,7 @@ class GameStage:
             self.actual_figure += 1
             return
         self.errors += 1
-        draw_img(self.mark.sprites[1], 0, 0)
+        draw_img(self.mark.sprites[1], 641 - 250, 271 - 250)
         pygame.display.flip()
         pygame.time.delay(500)
         return
@@ -167,6 +167,7 @@ class GameStage:
         self.medal.get_sprite(AX, AY, AX * 2, AY * 3)
         self.mark.get_sprite(FX, FY, 0, 0)
         self.mark.get_sprite(FX, FY, 0, FY)
+        self.mark.sprites[1] = pygame.transform.scale(self.mark.sprites[1], (500, 500))
         self.easy_figures.get_sprite(FX, FY, 0, 0)
         self.easy_figures.get_sprite(FX, FY, FX, 0)
         self.easy_figures.get_sprite(FX, FY, FX * 2, 0)
@@ -246,7 +247,8 @@ class GameStage:
             j = 0
             while j < 3:
                 if not self.card.guessed[k]:
-                    draw_img(diff_figures.sprites[self.card.boxes[k]], int(GX[j] + 49 - 162 / 2), int(GY[i] + 49 - 162 / 2))
+                    draw_img(diff_figures.sprites[self.card.boxes[k]], int(GX[j] + 49 - 162 / 2),
+                             int(GY[i] + 49 - 162 / 2))
                 else:
                     draw_img(self.mark.sprites[0], int(GX[j] + 49 - 162 / 2), int(GY[i] + 49 - 162 / 2))
                 j += 1
@@ -322,6 +324,9 @@ class GameStage:
                         self.check_figure(7)
                     if 707 <= mouse_pos[0] <= 805 and 342 <= mouse_pos[1] <= 440:
                         self.check_figure(8)
+                    if 10 <= mouse_pos[0] <= 64 and 37 <= mouse_pos[1] <= 64:
+                        self.stage = 0
+                        return
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
@@ -368,6 +373,9 @@ class GameStage:
                         self.check_figure(8)
                     if 92 <= mouse_pos[0] <= 306 and 460 <= mouse_pos[1] <= 477:
                         self.check_figure(-1)
+                    if 10 <= mouse_pos[0] <= 64 and 37 <= mouse_pos[1] <= 64:
+                        self.stage = 0
+                        return
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
@@ -416,6 +424,9 @@ class GameStage:
                         self.check_figure(8)
                     if 166 <= mouse_pos[0] <= 282 and 185 <= mouse_pos[1] <= 497:
                         self.check_figure(-1)
+                    if 10 <= mouse_pos[0] <= 64 and 37 <= mouse_pos[1] <= 64:
+                        self.stage = 0
+                        return
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
