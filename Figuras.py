@@ -82,8 +82,8 @@ AX = 960 / 3
 AY = 1280 / 4
 FX = 650 / 4
 FY = 813 / 5
-grid_x = (476, 591, 707)
-grid_y = (102, 222, 342)
+GX = (476, 591, 707)
+GY = (102, 222, 342)
 
 # all stages of the game
 class GameStage:
@@ -245,9 +245,9 @@ class GameStage:
             j = 0
             while j < 3:
                 if not self.card.guessed[k]:
-                    draw_img(diff_figures.sprites[self.card.boxes[k]], int(grid_x[j] + 49 - 162 / 2), int(grid_y[i] + 49 - 162 / 2))
+                    draw_img(diff_figures.sprites[self.card.boxes[k]], int(GX[j] + 49 - 162 / 2), int(GY[i] + 49 - 162 / 2))
                 else:
-                    draw_img(self.mark.sprites[0], int(grid_x[j] + 49 - 162 / 2), int(grid_y[i] + 49 - 162 / 2))
+                    draw_img(self.mark.sprites[0], int(GX[j] + 49 - 162 / 2), int(GY[i] + 49 - 162 / 2))
                 j += 1
                 k += 1
             i += 1
