@@ -85,6 +85,7 @@ FY = 813 / 5
 GX = (476, 591, 707)
 GY = (102, 222, 342)
 
+
 # all stages of the game
 class GameStage:
     def __init__(self):
@@ -364,7 +365,7 @@ class GameStage:
                         self.check_figure(7)
                     if 707 <= mouse_pos[0] <= 805 and 342 <= mouse_pos[1] <= 440:
                         self.check_figure(8)
-                    if 166 <= mouse_pos[0] <= 282 and 185 <= mouse_pos[1] <= 497:
+                    if 92 <= mouse_pos[0] <= 306 and 460 <= mouse_pos[1] <= 477:
                         self.check_figure(-1)
         if self.corrects == 9:
             self.stage = 5  # takes to victory
