@@ -329,7 +329,7 @@ class GameStage:
             self.stage = 6
             return
         self.panda.update(0.08)
-        draw_img(self.panda.image, 450 / 2 - AX / 2)
+        draw_img(self.panda.image, int(450 / 2 - AX / 2))
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
         draw_img(text, 450 / 2 - text.get_width() / 2, 300)
         self.draw_figure(1)
@@ -375,7 +375,7 @@ class GameStage:
             self.stage = 6
             return
         self.tiger.update(0.08)
-        draw_img(self.tiger.image, 450 / 2 - AX / 2)
+        draw_img(self.tiger.image, int(450 / 2 - AX / 2))
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
         draw_img(text, 450 / 2 - text.get_width() / 2, 300)
         if 10 <= self.figures[self.actual_figure] <= 13:
@@ -423,7 +423,7 @@ class GameStage:
             self.stage = 6
             return
         self.sloth.update(0.08)
-        draw_img(self.sloth.image, 450 / 2 - AX / 2)
+        draw_img(self.sloth.image, int(450 / 2 - AX / 2))
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
         draw_img(text, 450 / 2 - text.get_width() / 2, 300)
         if 10 <= self.figures[self.actual_figure] <= 13:
