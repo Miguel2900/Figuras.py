@@ -329,8 +329,9 @@ class GameStage:
             self.stage = 6
             return
         self.panda.update(0.08)
-        draw_img(self.panda.image)
-        draw_img(font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255)), 0, 300)
+        draw_img(self.panda.image, 450 / 2 - AX / 2)
+        text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
+        draw_img(text, 450 / 2 - text.get_width() / 2, 300)
         self.draw_figure(1)
         clock.tick(30)
         pygame.display.flip()
@@ -374,10 +375,12 @@ class GameStage:
             self.stage = 6
             return
         self.tiger.update(0.08)
-        draw_img(self.tiger.image)
-        draw_img(font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255)), 0, 300)
+        draw_img(self.tiger.image, 450 / 2 - AX / 2)
+        text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
+        draw_img(text, 450 / 2 - text.get_width() / 2, 300)
         if 10 <= self.figures[self.actual_figure] <= 13:
-            draw_img(font.render(f'{triangles[self.figures[self.actual_figure] % 10] }', False, (255, 255, 255)), 0, 350)
+            text = font.render(f'{triangles[self.figures[self.actual_figure] % 10]}', False, (255, 255, 255))
+            draw_img(text, 450 / 2 - text.get_width() / 2, 350)
         self.draw_figure(2)
         clock.tick(30)
         pygame.display.flip()
@@ -420,12 +423,15 @@ class GameStage:
             self.stage = 6
             return
         self.sloth.update(0.08)
-        draw_img(self.sloth.image)
-        draw_img(font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255)), 0, 300)
+        draw_img(self.sloth.image, 450 / 2 - AX / 2)
+        text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
+        draw_img(text, 450 / 2 - text.get_width() / 2, 300)
         if 10 <= self.figures[self.actual_figure] <= 13:
-            draw_img(font.render(f'{triangles[self.figures[self.actual_figure] % 10]}', False, (255, 255, 255)), 0, 350)
+            text = font.render(f'{triangles[self.figures[self.actual_figure] % 10]}', False, (255, 255, 255))
+            draw_img(text, 450 / 2 - text.get_width() / 2, 350)
         if 25 <= self.figures[self.actual_figure] <= 26:
-            draw_img(font.render(f'{prism[self.figures[self.actual_figure] % 20]}', False, (255, 255, 255)), 0, 350)
+            text = font.render(f'{prism[self.figures[self.actual_figure] % 20]}', False, (255, 255, 255))
+            draw_img(text, 450 / 2 - text.get_width() / 2, 350)
         self.draw_figure(2)
         clock.tick(30)
         pygame.display.flip()
