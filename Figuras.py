@@ -19,6 +19,15 @@ defeat_bg = pygame.image.load('PantallaPerdido.png')  # image for the defeat bac
 credits_img = pygame.image.load('TextoCreditos.png')  # image for the credits background
 rules_bg = pygame.image.load('Reglas.png') # images for the rules background
 
+#sounds
+click = pygame.mixer.Sound('click_sound.wav')
+click.set_volume(.3)
+correct = pygame.mixer.Sound('correct_sound.wav')
+error = pygame.mixer.Sound('error_sound.wav')
+error.set_volume(.3)
+victory = pygame.mixer.Sound('victory_sound.wav')
+defeat = pygame.mixer.Sound('defeat_sound.wav')
+
 # font
 font = pygame.font.Font('Pixelmania.ttf', 25)  # font used for displaying the figures names
 
@@ -39,7 +48,7 @@ class SpriteSheet:
     def __init__(self, f_name):
         self.image = pygame.image.load(f_name)  # sprite sheet
         self.sprites = []  # list of sprites
-        self.current_sprite = 0 # id for current sprite
+        self.current_sprite = 0  # id for current sprite
 
     # obtains sprites from the sheet
     def get_sprite(self, width, height, x, y):
@@ -139,16 +148,19 @@ class GameStage:
                 self.actual_figure += 1  # moves to the next figure to guess
                 self.corrects += 1
                 self.card.guessed[i] = True  # marks if the figures was guessed
+                self.play_sound(correct)
                 return
         elif self.figures[self.actual_figure] not in self.card.boxes and i == -1:  # checks if the figure skipped -
             # -was not in the card
             self.actual_figure += 1
+            self.play_sound(correct)
             return
         self.errors += 1
         self.lives[self.errors - 1].update(1)  # empties the heart figure to represent error made
         draw_img(self.mark.sprites[1], 641 - 250, 271 - 250)
+        self.play_sound(error)
         pygame.display.flip()
-        pygame.time.delay(500)
+        pygame.time.delay(1000)
         return
 
     # reset values in order to proceed
@@ -175,10 +187,10 @@ class GameStage:
             self.music_options.current_sprite = 13 #
             self.music_options.update(1)
             self.music_playing = False
-            print('Musica Apagada')
+            pygame.mixer.music.pause()
         else:
             self.music_playing = True
-            print('Musica encendida')
+            pygame.mixer.music.unpause()
 
     # toggles the sounds on and off
     def sound_toggle(self):
@@ -186,10 +198,12 @@ class GameStage:
             self.sound_options.current_sprite = 2
             self.sound_options.update(1)
             self.sound_playing = False
-            print('SonidoApagada')
         else:
             self.sound_playing = True
-            print('Sonido encendida')
+
+    def play_sound(self, sound):
+        if self.sound_playing:
+            sound.play()
 
     # shows the medal earned
     def victory(self):
@@ -198,6 +212,7 @@ class GameStage:
             if event.type == pygame.QUIT:
                 self.reset(0)
             if event.type == pygame.MOUSEBUTTONDOWN:
+                self.play_sound(click)
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 35 <= mouse_pos[0] <= 139 and 461 <= mouse_pos[1] <= 480:
@@ -217,7 +232,8 @@ class GameStage:
             if event.type == pygame.QUIT:
                 self.reset(0)
             if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
+                self.play_sound(click)
+                self.reset(self.actual_stage)
         pygame.display.flip()
 
     # show credits
@@ -230,11 +246,11 @@ class GameStage:
             if event.type == pygame.QUIT:
                 self.stage = 0  # returns to menu
                 return 0
-            if y == -2480: # stops drawing the image
-                y = 0
-                self.stage = 0  # returns to menu
-            else:
-                y += -.8
+        if y == -2480: # stops drawing the image
+            y = 0
+            self.reset(0)  # returns to menu
+        else:
+            y += -.8
         clock.tick(30)
         return y
 
@@ -267,9 +283,7 @@ class GameStage:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.stage = 1
-        self.stage = 1
         pygame.display.flip()
-        pygame.time.delay(10000)
 
     #*******************************Main stages***********************************************
     # main menu
@@ -279,6 +293,7 @@ class GameStage:
             if event.type == pygame.QUIT:
                 return False
             if event.type == pygame.MOUSEBUTTONDOWN:
+                self.play_sound(click)
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 700 <= mouse_pos[0] <= 875 and 289 <= mouse_pos[1] <= 320:
@@ -313,6 +328,7 @@ class GameStage:
                 self.reset(0)
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
+                self.play_sound(click)
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 476 <= mouse_pos[0] <= 574 and 102 <= mouse_pos[1] <= 200:
@@ -343,9 +359,11 @@ class GameStage:
                         self.sound_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
+            self.play_sound(victory)
             return
         if self.errors == 3:
             self.stage = 6
+            self.play_sound(defeat)
             return
         self.panda.update(0.08)
         if self.music_playing:
@@ -371,6 +389,7 @@ class GameStage:
                 self.reset(0)
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
+                self.play_sound(click)
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 476 <= mouse_pos[0] <= 574 and 102 <= mouse_pos[1] <= 200:
@@ -403,10 +422,11 @@ class GameStage:
                         self.sound_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
+            self.play_sound(victory)
             return
         if self.errors == 3:
             self.stage = 6
-            return
+            self.play_sound(defeat)
         self.tiger.update(0.08)
         if self.music_playing:
             self.music_options.update(.5, 1)
@@ -433,6 +453,7 @@ class GameStage:
                 self.reset(0)
                 return
             if event.type == pygame.MOUSEBUTTONDOWN:
+                self.play_sound(click)
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 476 <= mouse_pos[0] <= 574 and 102 <= mouse_pos[1] <= 200:
@@ -465,10 +486,11 @@ class GameStage:
                         self.sound_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
+            self.play_sound(victory)
             return
         if self.errors == 3:
             self.stage = 6
-            return
+            self.play_sound(defeat)
         self.sloth.update(0.08)
         if self.music_playing:
             self.music_options.update(.5, 1)
@@ -575,6 +597,9 @@ def draw_img(img, x=0, y=0):
 # variables
 clock = pygame.time.Clock()
 stage = GameStage()
+pygame.mixer.music.load('music.mp3')
+pygame.mixer.music.set_volume(.2)
+pygame.mixer.music.play(-1)
 
 
 def main():
