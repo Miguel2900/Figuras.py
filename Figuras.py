@@ -17,6 +17,7 @@ level3_bg = pygame.image.load('Dificil.png')
 victory_bg = pygame.image.load('PantallaGanado.png')
 defeat_bg = pygame.image.load('PantallaPerdido.png')
 credits_img = pygame.image.load('TextoCreditos.png')
+rules_bg = pygame.image.load('Reglas.png')
 
 # font
 font = pygame.font.Font('Pixelmania.ttf', 25)
@@ -322,6 +323,18 @@ class GameStage:
         clock.tick(30)
         return y
 
+    #
+    def rules(self):
+        draw_img(rules_bg)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.stage = 0
+                self.reset(0)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.stage = 1
+        pygame.display.flip()
+
     # main menu
     def menu(self):
         draw_img(menu_bg)
@@ -332,7 +345,7 @@ class GameStage:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 700 <= mouse_pos[0] <= 875 and 289 <= mouse_pos[1] <= 320:
-                        self.stage = 1  # takes to level 1
+                        self.stage = 7 # takes to rules
                     if 608 <= mouse_pos[0] <= 875 and 348 <= mouse_pos[1] <= 377:
                         self.stage = 4  # takes to credits
                     if 720 <= mouse_pos[0] <= 875 and 405 <= mouse_pos[1] <= 433:
@@ -480,7 +493,6 @@ class GameStage:
         self.tiger.update(0.08)
         if self.music_playing:
             self.music_options.update(.5, 1)
-            self.sound_options.update(.1, 1)
         if self.sound_playing:
             self.sound_options.update(.1, 1)
         draw_img(self.tiger.image, int(450 / 2 - AX / 2))
@@ -543,7 +555,6 @@ class GameStage:
         self.sloth.update(0.08)
         if self.music_playing:
             self.music_options.update(.5, 1)
-            self.sound_options.update(.1, 1)
         if self.sound_playing:
             self.sound_options.update(.1, 1)
         draw_img(self.sloth.image, int(450 / 2 - AX / 2))
@@ -590,6 +601,8 @@ def main():
             stage.victory()
         elif stage.stage == 6:  # if defeat
             stage.defeat()
+        elif stage.stage == 7:
+            stage.rules()
     pygame.quit()
 
 
