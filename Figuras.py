@@ -285,7 +285,7 @@ class GameStage:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 700 <= mouse_pos[0] <= 875 and 289 <= mouse_pos[1] <= 320:
-                        self.stage = 3 # takes to rules
+                        self.stage = 7 # takes to rules
                     if 608 <= mouse_pos[0] <= 875 and 348 <= mouse_pos[1] <= 377:
                         self.stage = 4  # takes to credits
                     if 720 <= mouse_pos[0] <= 875 and 405 <= mouse_pos[1] <= 433:
@@ -528,7 +528,7 @@ class GameStage:
         self.all_figures.get_sprite(FX, FY, 0, FY * 4)
         self.all_figures.get_sprite(FX, FY, FX, FY * 4)
         self.all_figures.get_sprite(FX, FY, FX * 2, FY * 4)
-        aux = SpriteSheet('Figuras_3d1.png')
+        self.all_figures.image = pygame.image.load('Figuras_3d1.png')  # changes to a new image to get sprites
         self.all_figures.get_sprite(FX, FY, 0, 0)
         self.all_figures.get_sprite(FX, FY, FX, 0)
         self.all_figures.get_sprite(FX, FY, FX * 2, 0)
