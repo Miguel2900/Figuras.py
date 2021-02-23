@@ -45,9 +45,13 @@ class SpriteSheet:
         self.sprites.append(self.image.subsurface(x, y, width, height))
 
     # updates sprites and changes the image
-    def update(self, speed):
+    def update(self, speed, length = 0):
+        if length == 0:
+            length = len(self.sprites)
+        else:
+            length = len(self.sprites) - 1
         self.current_sprite += speed
-        if self.current_sprite >= len(self.sprites):
+        if self.current_sprite >= length:
             self.current_sprite = 0
         self.image = self.sprites[int(self.current_sprite)]
 
@@ -105,6 +109,8 @@ class GameStage:
         self.lifes.append(SpriteSheet('corazon.png'))
         self.lifes.append(SpriteSheet('corazon.png'))
         self.lifes.append(SpriteSheet('corazon.png'))
+        self.sound_options = SpriteSheet('sound_option.png')
+        self.music_options = SpriteSheet('sound_option.png')
         self.credits_bg = SpriteSheet('Fondo_geometrico1.png')
         self.figures_ready = True
         self.figures = []
@@ -216,6 +222,25 @@ class GameStage:
         self.lifes[2].get_sprite(42, 42, 0, 0)
         self.lifes[2].get_sprite(42, 42, 42, 0)
         self.lifes[2].update(0)
+        self.sound_options.get_sprite(60, 60, 0, 0)
+        self.sound_options.get_sprite(60, 60, 60, 0)
+        self.sound_options.get_sprite(60, 60, 120, 0)
+        self.sound_options.get_sprite(60, 60, 180, 0)
+        self.music_options.get_sprite(60, 60, 0, 60)
+        self.music_options.get_sprite(60, 60, 60, 60)
+        self.music_options.get_sprite(60, 60, 120, 60)
+        self.music_options.get_sprite(60, 60, 180, 60)
+        self.music_options.get_sprite(60, 60, 0, 120)
+        self.music_options.get_sprite(60, 60, 60, 120)
+        self.music_options.get_sprite(60, 60, 120, 120)
+        self.music_options.get_sprite(60, 60, 180, 120)
+        self.music_options.get_sprite(60, 60, 0, 180)
+        self.music_options.get_sprite(60, 60, 60, 180)
+        self.music_options.get_sprite(60, 60, 120, 180)
+        self.music_options.get_sprite(60, 60, 180, 180)
+        self.music_options.get_sprite(60, 60, 0, 240)
+        self.music_options.get_sprite(60, 60, 60, 240)
+        self.music_options.get_sprite(60, 60, 120, 240)
         self.credits_bg.get_sprite(900, 900, 0, 0)
         self.credits_bg.get_sprite(900, 900, 900, 0)
         self.credits_bg.get_sprite(900, 900, 0, 900)
@@ -357,7 +382,11 @@ class GameStage:
             self.stage = 6
             return
         self.panda.update(0.08)
+        self.music_options.update(.5, 1)
+        self.sound_options.update(.1, 1)
         draw_img(self.panda.image, int(450 / 2 - AX / 2), 70)
+        draw_img(self.music_options.image, 500)
+        draw_img(self.sound_options.image, 600)
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
         draw_img(text, 450 / 2 - text.get_width() / 2, 400)
         self.draw_figure(1)
