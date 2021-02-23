@@ -230,37 +230,34 @@ class GameStage:
             if event.type == pygame.QUIT:
                 self.stage = 0  # returns to menu
                 return 0
-            if y == -2480:
+            if y == -2480: # stops drawing the image
                 y = 0
-                self.stage = 0
+                self.stage = 0  # returns to menu
             else:
                 y += -.8
         clock.tick(30)
         return y
 
     # Draws the figure or the mark
-    def draw_figure(self, diff):
+    def draw_figure(self):
         i = 0
         k = 0
         x = 323
-        #
-
-        diff_figures = self.all_figures
         while i < 3:
             j = 0
             draw_img(self.lives[i].image, x, 10)
             while j < 3:
                 if not self.card.guessed[k]:
-                    draw_img(diff_figures.sprites[self.card.boxes[k]], int(GX[j] + 49 - 162 / 2),
-                             int(GY[i] + 49 - 162 / 2))
-                else:
+                    draw_img(self.all_figures.sprites[self.card.boxes[k]], int(GX[j] + 49 - 162 / 2),
+                             int(GY[i] + 49 - 162 / 2))  # draws the corresponding image in the box
+                else:  # if the figure in the box has been guessed, it´s replaces by a check mark
                     draw_img(self.mark.sprites[0], int(GX[j] + 49 - 162 / 2), int(GY[i] + 49 - 162 / 2))
                 j += 1
                 k += 1
             i += 1
             x += 35
 
-    #
+    # draws the rules page
     def rules(self):
         draw_img(rules_bg)
         for event in pygame.event.get():
@@ -272,7 +269,7 @@ class GameStage:
                     self.stage = 1
         self.stage = 1
         pygame.display.flip()
-        pygame.time.delay(10)
+        pygame.time.delay(10000)
 
     #*******************************Main stages***********************************************
     # main menu
@@ -285,17 +282,17 @@ class GameStage:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 700 <= mouse_pos[0] <= 875 and 289 <= mouse_pos[1] <= 320:
-                        self.stage = 7 # takes to rules
+                        self.stage = 7  # takes to rules
                     if 608 <= mouse_pos[0] <= 875 and 348 <= mouse_pos[1] <= 377:
                         self.stage = 4  # takes to credits
                     if 720 <= mouse_pos[0] <= 875 and 405 <= mouse_pos[1] <= 433:
-                        return False
-                    if 166 <= mouse_pos[0] <= 282 and 185 <= mouse_pos[1] <= 497:
-                        self.stage = 2
+                        return False  # returns false to stop main loop
+                    # if 166 <= mouse_pos[0] <= 282 and 185 <= mouse_pos[1] <= 497:
+                    # self.stage = 2
                     if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
-                        self.music_toggle()
+                        self.music_toggle()  # toggles music
                     if 856 <= mouse_pos[0] <= 877 and 12 <= mouse_pos[1] <= 47:
-                        self.sound_toggle()
+                        self.sound_toggle()  # toggles sound
         if self.music_playing:
             self.music_options.update(.5, 1)
         if self.sound_playing:
@@ -360,7 +357,7 @@ class GameStage:
         draw_img(self.sound_options.image, 840)
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
         draw_img(text, 450 / 2 - text.get_width() / 2, 400)
-        self.draw_figure(1)
+        self.draw_figure()
         clock.tick(30)
         pygame.display.flip()
 
@@ -423,7 +420,7 @@ class GameStage:
         if 10 <= self.figures[self.actual_figure] <= 13:
             text = font.render(f'{triangles[self.figures[self.actual_figure] % 10]}', False, (255, 255, 255))
             draw_img(text, 450 / 2 - text.get_width() / 2, 350)
-        self.draw_figure(2)
+        self.draw_figure()
         clock.tick(30)
         pygame.display.flip()
 
@@ -488,7 +485,7 @@ class GameStage:
         if 25 <= self.figures[self.actual_figure] <= 26:
             text = font.render(f'{prism[self.figures[self.actual_figure] % 20]}', False, (255, 255, 255))
             draw_img(text, 450 / 2 - text.get_width() / 2, 350)
-        self.draw_figure(2)
+        self.draw_figure()
         clock.tick(30)
         pygame.display.flip()
 
