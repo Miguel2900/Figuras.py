@@ -285,9 +285,12 @@ class GameStage:
             if event.type == pygame.QUIT:
                 self.stage = 0
                 self.reset(0)
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    self.stage = 1
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.play_sound(click)
+                if event.button == 1:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if 693 <= mouse_pos[0] <= 878 and 462 <= mouse_pos[1] <= 481:
+                        self.stage = 1
         pygame.display.flip()
 
     #*******************************Main stages***********************************************
