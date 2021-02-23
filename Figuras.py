@@ -10,19 +10,19 @@ pygame.init()
 
 
 # images
-menu_bg = pygame.image.load('MenuPrincipal.png')
-level1_bg = pygame.image.load('Facil.png')
-level2_bg = pygame.image.load('Medio.png')
-level3_bg = pygame.image.load('Dificil.png')
-victory_bg = pygame.image.load('PantallaGanado.png')
-defeat_bg = pygame.image.load('PantallaPerdido.png')
-credits_img = pygame.image.load('TextoCreditos.png')
-rules_bg = pygame.image.load('Reglas.png')
+menu_bg = pygame.image.load('MenuPrincipal.png')  # image for the menu background
+level1_bg = pygame.image.load('Facil.png')  # image for the level 1 background
+level2_bg = pygame.image.load('Medio.png')  # image for the level 2 background
+level3_bg = pygame.image.load('Dificil.png')  # image for the level 3 background
+victory_bg = pygame.image.load('PantallaGanado.png')  # image for the victory background
+defeat_bg = pygame.image.load('PantallaPerdido.png')  # image for the defeat background
+credits_img = pygame.image.load('TextoCreditos.png')  # image for the credits background
+rules_bg = pygame.image.load('Reglas.png') # images for the rules background
 
 # font
-font = pygame.font.Font('Pixelmania.ttf', 25)
+font = pygame.font.Font('Pixelmania.ttf', 25)  # font used for displaying the figures names
 
-# dictionary
+# banks of figure names
 figures = {0: 'CIRCULO', 1: 'RECTANGULO', 2: 'CUADRADO', 3: 'ROMBO',
            4: 'CORAZON', 5: 'FLECHA', 6: 'PENTAGONO', 7: 'HEXAGONO', 8: 'CRUZ',
            9: 'ESTRELLA', 10: 'TRIANGULO', 11: 'TRIANGULO', 12: 'TRIANGULO',
@@ -39,29 +39,29 @@ class SpriteSheet:
     def __init__(self, f_name):
         self.image = pygame.image.load(f_name)  # sprite sheet
         self.sprites = []  # list of sprites
-        self.current_sprite = 0
+        self.current_sprite = 0 # id for current sprite
 
     # obtains sprites from the sheet
     def get_sprite(self, width, height, x, y):
-        self.sprites.append(self.image.subsurface(x, y, width, height))
+        self.sprites.append(self.image.subsurface(x, y, width, height))  # adds cut images to the list of sprites
 
     # updates sprites and changes the image
-    def update(self, speed, skip = 0):
-        if skip == 0:
+    def update(self, speed, skip=0):
+        if skip == 0:  # used when trying to skip the last frames on music and sound options
             length = len(self.sprites)
         else:
             length = len(self.sprites) - 1
         self.current_sprite += speed
         if self.current_sprite >= length:
             self.current_sprite = 0
-        self.image = self.sprites[int(self.current_sprite)]
+        self.image = self.sprites[int(self.current_sprite)]  # stores the image to print it
 
 
 class Card:
     def __init__(self):
-        self.boxes = []
-        self.ready = True
-        self.guessed = []
+        self.boxes = []  # list of the boxes
+        self.ready = True  # determines if its ready to be filled the list again
+        self.guessed = []  # list of guessed figures
 
     # fill with random numbers the boxes in the card
     def fill_boxes(self, diff):
@@ -75,11 +75,11 @@ class Card:
                 max_range = 26
             while j < 9:
                 rn = random.randint(0, max_range)
-                if rn not in self.boxes:
+                if rn not in self.boxes:  # stores only different values
                     self.boxes.append(rn)
-                    self.guessed.append(False)
+                    self.guessed.append(False)  # Fills the guessed list of False values
                     j += 1
-            self.ready = False
+            self.ready = False  # not ready to be filled with random values
 
 
 # width & height
@@ -94,59 +94,58 @@ GY = (102, 222, 342)
 # all stages of the game
 class GameStage:
     def __init__(self):
-        self.stage = 0
-        self.actual_stage = 0
-        self.card = Card()
-        self.easy_figures = SpriteSheet('Figuras1.png')
-        self.medium_figures = SpriteSheet('Figuras1.png')
-        self.hard_figures = SpriteSheet('Figuras_3d1.png')
-        self.tiger = SpriteSheet('animals.png')
-        self.panda = SpriteSheet('animals.png')
-        self.sloth = SpriteSheet('animals.png')
-        self.frog = SpriteSheet('animals.png')
-        self.medal = SpriteSheet('animals.png')
-        self.mark = SpriteSheet('marks1.png')
-        self.lifes = []
-        self.lifes.append(SpriteSheet('corazon.png'))
-        self.lifes.append(SpriteSheet('corazon.png'))
-        self.lifes.append(SpriteSheet('corazon.png'))
-        self.sound_options = SpriteSheet('sound_option.png')
-        self.music_options = SpriteSheet('sound_option.png')
-        self.sound_playing = True
-        self.music_playing = True
-        self.credits_bg = SpriteSheet('Fondo_geometrico1.png')
-        self.figures_ready = True
-        self.figures = []
-        self.corrects = 0
-        self.errors = 0
-        self.actual_figure = 0
-        self.get_sprites()
+        self.stage = 0  # control which stage is displayed
+        self.actual_stage = 0  # saves the stage when another is called
+        self.card = Card()  # creating a card object
+        self.all_figures = SpriteSheet('Figuras1.png')  # object for all figures pictures
+        self.tiger = SpriteSheet('animals.png')  # object for tiger pictures
+        self.panda = SpriteSheet('animals.png')  # object for panda pictures
+        self.sloth = SpriteSheet('animals.png')  # object for sloth pictures
+        self.frog = SpriteSheet('animals.png')  # object for frog pictures
+        self.medal = SpriteSheet('animals.png')  # object for medal pictures
+        self.mark = SpriteSheet('marks1.png')  # object for mark pictures
+        self.lives = []  # list for the lives 
+        self.lives.append(SpriteSheet('corazon.png'))
+        self.lives.append(SpriteSheet('corazon.png'))
+        self.lives.append(SpriteSheet('corazon.png'))
+        self.sound_options = SpriteSheet('sound_option.png')  # object for sound options
+        self.music_options = SpriteSheet('sound_option.png')  # object for music options
+        self.sound_playing = True  # state of sound
+        self.music_playing = True  # state of music
+        self.credits_bg = SpriteSheet('Fondo_geometrico1.png')  # object for the credits background
+        self.figures_ready = True  # determines if figures list is ready to be filled the list again
+        self.figures = []  # figures list
+        self.corrects = 0  # correct count
+        self.errors = 0  # errors count
+        self.actual_figure = 0  # id for the figure
+        self.get_sprites()  # function to trim and save the different sprites
 
     # Fills the list figures with random values
     def fill_figures(self, min_value, max_value, stg):
         i = 0
-        if self.figures_ready:
+        if self.figures_ready:  # verify if its ready the list to be filled
             self.actual_stage = stg
             while i <= max_value:
                 rn = random.randint(min_value, max_value)
-                if rn not in self.figures:
+                if rn not in self.figures:  # stores only different values
                     self.figures.append(rn)
                     i += 1
-            self.figures_ready = False
+            self.figures_ready = False  # not ready to be filled with random values
 
     # checks if the figure choosen is the same as the one asked
     def check_figure(self, i):
-        if i != -1:
+        if i != -1:  # i is the selected box, -1 is next figure button
             if self.card.boxes[i] == self.figures[self.actual_figure]:
-                self.actual_figure += 1
+                self.actual_figure += 1  # moves to the next figure to guess
                 self.corrects += 1
-                self.card.guessed[i] = True
+                self.card.guessed[i] = True  # marks if the figures was guessed
                 return
-        elif self.figures[self.actual_figure] not in self.card.boxes and i == -1:
+        elif self.figures[self.actual_figure] not in self.card.boxes and i == -1:  # checks if the figure skipped -
+            # -was not in the card
             self.actual_figure += 1
             return
         self.errors += 1
-        self.lifes[self.errors -1].update(1)
+        self.lives[self.errors - 1].update(1)  # empties the heart figure to represent error made
         draw_img(self.mark.sprites[1], 641 - 250, 271 - 250)
         pygame.display.flip()
         pygame.time.delay(500)
@@ -156,8 +155,8 @@ class GameStage:
     def reset(self, stg):
         i = 0
         while i < 3:
-            if self.lifes[i].current_sprite == 1:
-                self.lifes[i].update(1)
+            if self.lives[i].current_sprite == 1:  # if hearts are empty, refills them
+                self.lives[i].update(1)
             i += 1
         self.stage = stg
         self.actual_stage = stg
@@ -170,83 +169,27 @@ class GameStage:
         self.card.boxes = []
         self.card.guessed = []
 
-    # obtains sprites for each object
-    def get_sprites(self):
-        self.tiger.get_sprite(AX, AY, 0, 0)
-        self.tiger.get_sprite(AX, AY, AX, 0)
-        self.panda.get_sprite(AX, AY, AX * 2, 0)
-        self.panda.get_sprite(AX, AY, 0, AY)
-        self.sloth.get_sprite(AX, AY, AX, AY)
-        self.sloth.get_sprite(AX, AY, AX * 2, AY)
-        self.frog.get_sprite(AX, AY, 0, AY * 2)
-        self.frog.get_sprite(AX, AY, AX, AY * 2)
-        self.frog.get_sprite(AX, AY, AX * 2, AY * 2)
-        self.medal.get_sprite(AX, AY, 0, AY * 3)
-        self.medal.get_sprite(AX, AY, AX, AY * 3)
-        self.medal.get_sprite(AX, AY, AX * 2, AY * 3)
-        self.mark.get_sprite(FX, FY, 0, 0)
-        self.mark.get_sprite(FX, FY, 0, FY)
-        self.mark.sprites[1] = pygame.transform.scale(self.mark.sprites[1], (500, 500))
-        self.easy_figures.get_sprite(FX, FY, 0, 0)
-        self.easy_figures.get_sprite(FX, FY, FX, 0)
-        self.easy_figures.get_sprite(FX, FY, FX * 2, 0)
-        self.easy_figures.get_sprite(FX, FY, FX * 3, 0)
-        self.easy_figures.get_sprite(FX, FY, 0, FY)
-        self.easy_figures.get_sprite(FX, FY, FX, FY)
-        self.easy_figures.get_sprite(FX, FY, FX * 2, FY)
-        self.easy_figures.get_sprite(FX, FY, FX * 3, FY)
-        self.easy_figures.get_sprite(FX, FY, 0, FY * 2)
-        self.medium_figures.sprites = self.easy_figures.sprites
-        self.medium_figures.get_sprite(FX, FY, FX, FY * 2)
-        self.medium_figures.get_sprite(FX, FY, FX * 2, FY * 2)
-        self.medium_figures.get_sprite(FX, FY, FX * 3, FY * 2)
-        self.medium_figures.get_sprite(FX, FY, 0, FY * 3)
-        self.medium_figures.get_sprite(FX, FY, FX, FY * 3)
-        self.medium_figures.get_sprite(FX, FY, FX * 2, FY * 3)
-        self.medium_figures.get_sprite(FX, FY, FX * 3, FY * 3)
-        self.medium_figures.get_sprite(FX, FY, 0, FY * 4)
-        self.medium_figures.get_sprite(FX, FY, FX, FY * 4)
-        self.medium_figures.get_sprite(FX, FY, FX * 2, FY * 4)
-        self.hard_figures.sprites = self.medium_figures.sprites
-        self.hard_figures.get_sprite(FX, FY, 0, 0)
-        self.hard_figures.get_sprite(FX, FY, FX, 0)
-        self.hard_figures.get_sprite(FX, FY, FX * 2, 0)
-        self.hard_figures.get_sprite(FX - 1, FY, FX * 3, 0)
-        self.hard_figures.get_sprite(FX, FY, 0, FY)
-        self.hard_figures.get_sprite(FX, FY, FX, FY)
-        self.hard_figures.get_sprite(FX, FY, FX * 2, FY)
-        self.hard_figures.get_sprite(FX - 1, FY, FX * 3, FY)
-        self.lifes[0].get_sprite(42, 42, 0, 0)
-        self.lifes[0].get_sprite(42, 42, 42, 0)
-        self.lifes[0].update(0)
-        self.lifes[1].get_sprite(42, 42, 0, 0)
-        self.lifes[1].get_sprite(42, 42, 42, 0)
-        self.lifes[1].update(0)
-        self.lifes[2].get_sprite(42, 42, 0, 0)
-        self.lifes[2].get_sprite(42, 42, 42, 0)
-        self.lifes[2].update(0)
-        self.sound_options.get_sprite(64, 64, 0, 0)
-        self.sound_options.get_sprite(64, 64, 64, 0)
-        self.sound_options.get_sprite(64, 64, 128, 0)
-        self.sound_options.get_sprite(64, 64, 192, 0)
-        self.music_options.get_sprite(64, 64, 0, 64)
-        self.music_options.get_sprite(64, 64, 64, 64)
-        self.music_options.get_sprite(64, 64, 128, 64)
-        self.music_options.get_sprite(64, 64, 192, 64)
-        self.music_options.get_sprite(64, 64, 0, 128)
-        self.music_options.get_sprite(64, 64, 64, 128)
-        self.music_options.get_sprite(64, 64, 128, 128)
-        self.music_options.get_sprite(64, 64, 192, 128)
-        self.music_options.get_sprite(64, 64, 0, 192)
-        self.music_options.get_sprite(64, 64, 64, 192)
-        self.music_options.get_sprite(64, 64, 128, 192)
-        self.music_options.get_sprite(64, 64, 192, 192)
-        self.music_options.get_sprite(64, 64, 0, 256)
-        self.music_options.get_sprite(64, 64, 64, 256)
-        self.music_options.get_sprite(64, 64, 128, 256)
-        self.credits_bg.get_sprite(900, 900, 0, 0)
-        self.credits_bg.get_sprite(900, 900, 900, 0)
-        self.credits_bg.get_sprite(900, 900, 0, 900)
+    # toggles the music on and off
+    def music_toggle(self):
+        if self.music_playing:
+            self.music_options.current_sprite = 13 #
+            self.music_options.update(1)
+            self.music_playing = False
+            print('Musica Apagada')
+        else:
+            self.music_playing = True
+            print('Musica encendida')
+
+    # toggles the sounds on and off
+    def sound_toggle(self):
+        if self.sound_playing:
+            self.sound_options.current_sprite = 2
+            self.sound_options.update(1)
+            self.sound_playing = False
+            print('SonidoApagada')
+        else:
+            self.sound_playing = True
+            print('Sonido encendida')
 
     # shows the medal earned
     def victory(self):
@@ -258,19 +201,16 @@ class GameStage:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 35 <= mouse_pos[0] <= 139 and 461 <= mouse_pos[1] <= 480:
-                        self.reset(0)
+                        self.reset(0)  # if clicked returns to main menu and resets variables
                         return
                     if 679 <= mouse_pos[0] <= 884 and 461 <= mouse_pos[1] <= 480:
-                        self.reset(self.actual_stage + 1)
+                        self.reset(self.actual_stage + 1)  # if clicked goes to next level, credits if it´s 3 level
                         return
-        if self.errors == 0:
-            draw_img(self.medal.sprites[2], int(450 - AX / 2), int(250 - AY / 2 + 50))
-        if self.errors == 1:
-            draw_img(self.medal.sprites[1], int(450 - AX / 2), int(250 - AY / 2 + 50))
-        if self.errors == 2:
-            draw_img(self.medal.sprites[0], int(450 - AX / 2), int(250 - AY / 2 + 50))
+        # draws medal according to error value, 0 - gold, 1 - silver, 2 - bronze
+        draw_img(self.medal.sprites[(self.errors - 2) * (-1)], int(450 - AX / 2), int(250 - AY / 2 + 50))
         pygame.display.flip()
 
+    # shows the defeat screen
     def defeat(self):
         draw_img(defeat_bg)
         for event in pygame.event.get():
@@ -280,20 +220,35 @@ class GameStage:
                 pass
         pygame.display.flip()
 
+    # show credits
+    def credits(self, y):
+        self.credits_bg.update(0.5)
+        draw_img(self.credits_bg.image, 0, -20)
+        draw_img(credits_img, 0, y)
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.stage = 0  # returns to menu
+                return 0
+            if y == -2480:
+                y = 0
+                self.stage = 0
+            else:
+                y += -.8
+        clock.tick(30)
+        return y
+
     # Draws the figure or the mark
     def draw_figure(self, diff):
         i = 0
         k = 0
         x = 323
-        if diff == 1:
-            diff_figures = self.easy_figures
-        elif diff == 2:
-            diff_figures = self.medium_figures
-        else:
-            diff_figures = self.hard_figures
+        #
+
+        diff_figures = self.all_figures
         while i < 3:
             j = 0
-            draw_img(self.lifes[i].image, x, 10)
+            draw_img(self.lives[i].image, x, 10)
             while j < 3:
                 if not self.card.guessed[k]:
                     draw_img(diff_figures.sprites[self.card.boxes[k]], int(GX[j] + 49 - 162 / 2),
@@ -305,24 +260,6 @@ class GameStage:
             i += 1
             x += 35
 
-    # show credits ):
-    def credits(self, y):
-        self.credits_bg.update(0.5)
-        draw_img(self.credits_bg.image, 0, -20)
-        draw_img(credits_img, 0, y)
-        pygame.display.flip()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.stage = 0  # returns to menu
-                return 0
-        if y == -2480:
-            y = 0
-            self.stage = 0
-        else:
-            y += -.8
-        clock.tick(30)
-        return y
-
     #
     def rules(self):
         draw_img(rules_bg)
@@ -333,8 +270,11 @@ class GameStage:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.stage = 1
+        self.stage = 1
         pygame.display.flip()
+        pygame.time.delay(10)
 
+    #*******************************Main stages***********************************************
     # main menu
     def menu(self):
         draw_img(menu_bg)
@@ -345,7 +285,7 @@ class GameStage:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
                     if 700 <= mouse_pos[0] <= 875 and 289 <= mouse_pos[1] <= 320:
-                        self.stage = 7 # takes to rules
+                        self.stage = 3 # takes to rules
                     if 608 <= mouse_pos[0] <= 875 and 348 <= mouse_pos[1] <= 377:
                         self.stage = 4  # takes to credits
                     if 720 <= mouse_pos[0] <= 875 and 405 <= mouse_pos[1] <= 433:
@@ -423,26 +363,6 @@ class GameStage:
         self.draw_figure(1)
         clock.tick(30)
         pygame.display.flip()
-
-    def music_toggle(self):
-        if self.music_playing:
-            self.music_options.current_sprite = 13
-            self.music_options.update(1)
-            self.music_playing = False
-            print('Musica Apagada')
-        else:
-            self.music_playing = True
-            print('Musica encendida')
-
-    def sound_toggle(self):
-        if self.sound_playing:
-            self.sound_options.current_sprite = 2
-            self.sound_options.update(1)
-            self.sound_playing = False
-            print('SonidoApagada')
-        else:
-            self.sound_playing = True
-            print('Sonido encendida')
 
     # level 2
     def level_2(self):
@@ -571,6 +491,83 @@ class GameStage:
         self.draw_figure(2)
         clock.tick(30)
         pygame.display.flip()
+
+        # obtains sprites for each object
+    def get_sprites(self):
+        self.tiger.get_sprite(AX, AY, 0, 0)
+        self.tiger.get_sprite(AX, AY, AX, 0)
+        self.panda.get_sprite(AX, AY, AX * 2, 0)
+        self.panda.get_sprite(AX, AY, 0, AY)
+        self.sloth.get_sprite(AX, AY, AX, AY)
+        self.sloth.get_sprite(AX, AY, AX * 2, AY)
+        self.frog.get_sprite(AX, AY, 0, AY * 2)
+        self.frog.get_sprite(AX, AY, AX, AY * 2)
+        self.frog.get_sprite(AX, AY, AX * 2, AY * 2)
+        self.medal.get_sprite(AX, AY, 0, AY * 3)
+        self.medal.get_sprite(AX, AY, AX, AY * 3)
+        self.medal.get_sprite(AX, AY, AX * 2, AY * 3)
+        self.mark.get_sprite(FX, FY, 0, 0)
+        self.mark.get_sprite(FX, FY, 0, FY)
+        self.mark.sprites[1] = pygame.transform.scale(self.mark.sprites[1], (500, 500))
+        self.all_figures.get_sprite(FX, FY, 0, 0)
+        self.all_figures.get_sprite(FX, FY, FX, 0)
+        self.all_figures.get_sprite(FX, FY, FX * 2, 0)
+        self.all_figures.get_sprite(FX, FY, FX * 3, 0)
+        self.all_figures.get_sprite(FX, FY, 0, FY)
+        self.all_figures.get_sprite(FX, FY, FX, FY)
+        self.all_figures.get_sprite(FX, FY, FX * 2, FY)
+        self.all_figures.get_sprite(FX, FY, FX * 3, FY)
+        self.all_figures.get_sprite(FX, FY, 0, FY * 2)
+        self.all_figures.get_sprite(FX, FY, FX, FY * 2)
+        self.all_figures.get_sprite(FX, FY, FX * 2, FY * 2)
+        self.all_figures.get_sprite(FX, FY, FX * 3, FY * 2)
+        self.all_figures.get_sprite(FX, FY, 0, FY * 3)
+        self.all_figures.get_sprite(FX, FY, FX, FY * 3)
+        self.all_figures.get_sprite(FX, FY, FX * 2, FY * 3)
+        self.all_figures.get_sprite(FX, FY, FX * 3, FY * 3)
+        self.all_figures.get_sprite(FX, FY, 0, FY * 4)
+        self.all_figures.get_sprite(FX, FY, FX, FY * 4)
+        self.all_figures.get_sprite(FX, FY, FX * 2, FY * 4)
+        aux = SpriteSheet('Figuras_3d1.png')
+        self.all_figures.get_sprite(FX, FY, 0, 0)
+        self.all_figures.get_sprite(FX, FY, FX, 0)
+        self.all_figures.get_sprite(FX, FY, FX * 2, 0)
+        self.all_figures.get_sprite(FX - 1, FY, FX * 3, 0)
+        self.all_figures.get_sprite(FX, FY, 0, FY)
+        self.all_figures.get_sprite(FX, FY, FX, FY)
+        self.all_figures.get_sprite(FX, FY, FX * 2, FY)
+        self.all_figures.get_sprite(FX - 1, FY, FX * 3, FY)
+        self.lives[0].get_sprite(42, 42, 0, 0)
+        self.lives[0].get_sprite(42, 42, 42, 0)
+        self.lives[0].update(0)
+        self.lives[1].get_sprite(42, 42, 0, 0)
+        self.lives[1].get_sprite(42, 42, 42, 0)
+        self.lives[1].update(0)
+        self.lives[2].get_sprite(42, 42, 0, 0)
+        self.lives[2].get_sprite(42, 42, 42, 0)
+        self.lives[2].update(0)
+        self.sound_options.get_sprite(64, 64, 0, 0)
+        self.sound_options.get_sprite(64, 64, 64, 0)
+        self.sound_options.get_sprite(64, 64, 128, 0)
+        self.sound_options.get_sprite(64, 64, 192, 0)
+        self.music_options.get_sprite(64, 64, 0, 64)
+        self.music_options.get_sprite(64, 64, 64, 64)
+        self.music_options.get_sprite(64, 64, 128, 64)
+        self.music_options.get_sprite(64, 64, 192, 64)
+        self.music_options.get_sprite(64, 64, 0, 128)
+        self.music_options.get_sprite(64, 64, 64, 128)
+        self.music_options.get_sprite(64, 64, 128, 128)
+        self.music_options.get_sprite(64, 64, 192, 128)
+        self.music_options.get_sprite(64, 64, 0, 192)
+        self.music_options.get_sprite(64, 64, 64, 192)
+        self.music_options.get_sprite(64, 64, 128, 192)
+        self.music_options.get_sprite(64, 64, 192, 192)
+        self.music_options.get_sprite(64, 64, 0, 256)
+        self.music_options.get_sprite(64, 64, 64, 256)
+        self.music_options.get_sprite(64, 64, 128, 256)
+        self.credits_bg.get_sprite(900, 900, 0, 0)
+        self.credits_bg.get_sprite(900, 900, 900, 0)
+        self.credits_bg.get_sprite(900, 900, 0, 900)
 
 
 # functions
