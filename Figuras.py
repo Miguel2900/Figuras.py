@@ -339,6 +339,16 @@ class GameStage:
                         return False
                     if 166 <= mouse_pos[0] <= 282 and 185 <= mouse_pos[1] <= 497:
                         self.stage = 2
+                    if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
+                        self.music_toggle()
+                    if 856 <= mouse_pos[0] <= 877 and 12 <= mouse_pos[1] <= 47:
+                        self.sound_toggle()
+        if self.music_playing:
+            self.music_options.update(.5, 1)
+        if self.sound_playing:
+            self.sound_options.update(.1, 1)
+        draw_img(self.music_options.image, 780)
+        draw_img(self.sound_options.image, 840)
         pygame.display.flip()
         clock.tick(30)
         return True
@@ -379,6 +389,8 @@ class GameStage:
                         return
                     if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
                         self.music_toggle()
+                    if 856 <= mouse_pos[0] <= 877 and 12 <= mouse_pos[1] <= 47:
+                        self.sound_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
@@ -388,6 +400,7 @@ class GameStage:
         self.panda.update(0.08)
         if self.music_playing:
             self.music_options.update(.5, 1)
+        if self.sound_playing:
             self.sound_options.update(.1, 1)
         draw_img(self.panda.image, int(450 / 2 - AX / 2), 70)
         draw_img(self.music_options.image, 780)
@@ -407,6 +420,16 @@ class GameStage:
         else:
             self.music_playing = True
             print('Musica encendida')
+
+    def sound_toggle(self):
+        if self.sound_playing:
+            self.sound_options.current_sprite = 2
+            self.sound_options.update(1)
+            self.sound_playing = False
+            print('SonidoApagada')
+        else:
+            self.sound_playing = True
+            print('Sonido encendida')
 
     # level 2
     def level_2(self):
@@ -446,6 +469,8 @@ class GameStage:
                         return
                     if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
                         self.music_toggle()
+                    if 856 <= mouse_pos[0] <= 877 and 12 <= mouse_pos[1] <= 47:
+                        self.sound_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
@@ -455,6 +480,8 @@ class GameStage:
         self.tiger.update(0.08)
         if self.music_playing:
             self.music_options.update(.5, 1)
+            self.sound_options.update(.1, 1)
+        if self.sound_playing:
             self.sound_options.update(.1, 1)
         draw_img(self.tiger.image, int(450 / 2 - AX / 2))
         draw_img(self.music_options.image, 780)
@@ -505,6 +532,8 @@ class GameStage:
                         return
                     if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
                         self.music_toggle()
+                    if 856 <= mouse_pos[0] <= 877 and 12 <= mouse_pos[1] <= 47:
+                        self.sound_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
@@ -514,6 +543,8 @@ class GameStage:
         self.sloth.update(0.08)
         if self.music_playing:
             self.music_options.update(.5, 1)
+            self.sound_options.update(.1, 1)
+        if self.sound_playing:
             self.sound_options.update(.1, 1)
         draw_img(self.sloth.image, int(450 / 2 - AX / 2))
         draw_img(self.music_options.image, 780)
