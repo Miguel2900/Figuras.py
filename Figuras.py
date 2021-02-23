@@ -310,8 +310,6 @@ class GameStage:
                         self.stage = 4  # takes to credits
                     if 720 <= mouse_pos[0] <= 875 and 405 <= mouse_pos[1] <= 433:
                         return False  # returns false to stop main loop
-                    # if 166 <= mouse_pos[0] <= 282 and 185 <= mouse_pos[1] <= 497:
-                    # self.stage = 2
                     if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
                         self.music_toggle()  # toggles music
                     if 856 <= mouse_pos[0] <= 877 and 12 <= mouse_pos[1] <= 47:
