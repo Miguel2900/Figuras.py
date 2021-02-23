@@ -304,7 +304,7 @@ class GameStage:
             i += 1
             x += 35
 
-    # show credits
+    # show credits ):
     def credits(self, y):
         self.credits_bg.update(0.5)
         draw_img(self.credits_bg.image, 0, -20)
