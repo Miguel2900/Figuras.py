@@ -233,7 +233,12 @@ class GameStage:
                 self.reset(0)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.play_sound(click)
-                self.reset(self.actual_stage)
+                if event.button == 1:
+                    mouse_pos = pygame.mouse.get_pos()
+                    if 17 <= mouse_pos[0] <= 121 and 456 <= mouse_pos[1] <= 475:
+                        self.reset(0)
+                    if 622 <= mouse_pos[0] <= 875 and 456 <= mouse_pos[1] <= 475:
+                        self.reset(self.actual_stage)
         pygame.display.flip()
 
     # show credits
