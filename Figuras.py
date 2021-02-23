@@ -45,8 +45,8 @@ class SpriteSheet:
         self.sprites.append(self.image.subsurface(x, y, width, height))
 
     # updates sprites and changes the image
-    def update(self, speed, length = 0):
-        if length == 0:
+    def update(self, speed, skip = 0):
+        if skip == 0:
             length = len(self.sprites)
         else:
             length = len(self.sprites) - 1
@@ -111,6 +111,8 @@ class GameStage:
         self.lifes.append(SpriteSheet('corazon.png'))
         self.sound_options = SpriteSheet('sound_option.png')
         self.music_options = SpriteSheet('sound_option.png')
+        self.sound_playing = True
+        self.music_playing = True
         self.credits_bg = SpriteSheet('Fondo_geometrico1.png')
         self.figures_ready = True
         self.figures = []
@@ -222,25 +224,25 @@ class GameStage:
         self.lifes[2].get_sprite(42, 42, 0, 0)
         self.lifes[2].get_sprite(42, 42, 42, 0)
         self.lifes[2].update(0)
-        self.sound_options.get_sprite(60, 60, 0, 0)
-        self.sound_options.get_sprite(60, 60, 60, 0)
-        self.sound_options.get_sprite(60, 60, 120, 0)
-        self.sound_options.get_sprite(60, 60, 180, 0)
-        self.music_options.get_sprite(60, 60, 0, 60)
-        self.music_options.get_sprite(60, 60, 60, 60)
-        self.music_options.get_sprite(60, 60, 120, 60)
-        self.music_options.get_sprite(60, 60, 180, 60)
-        self.music_options.get_sprite(60, 60, 0, 120)
-        self.music_options.get_sprite(60, 60, 60, 120)
-        self.music_options.get_sprite(60, 60, 120, 120)
-        self.music_options.get_sprite(60, 60, 180, 120)
-        self.music_options.get_sprite(60, 60, 0, 180)
-        self.music_options.get_sprite(60, 60, 60, 180)
-        self.music_options.get_sprite(60, 60, 120, 180)
-        self.music_options.get_sprite(60, 60, 180, 180)
-        self.music_options.get_sprite(60, 60, 0, 240)
-        self.music_options.get_sprite(60, 60, 60, 240)
-        self.music_options.get_sprite(60, 60, 120, 240)
+        self.sound_options.get_sprite(64, 64, 0, 0)
+        self.sound_options.get_sprite(64, 64, 64, 0)
+        self.sound_options.get_sprite(64, 64, 128, 0)
+        self.sound_options.get_sprite(64, 64, 192, 0)
+        self.music_options.get_sprite(64, 64, 0, 64)
+        self.music_options.get_sprite(64, 64, 64, 64)
+        self.music_options.get_sprite(64, 64, 128, 64)
+        self.music_options.get_sprite(64, 64, 192, 64)
+        self.music_options.get_sprite(64, 64, 0, 128)
+        self.music_options.get_sprite(64, 64, 64, 128)
+        self.music_options.get_sprite(64, 64, 128, 128)
+        self.music_options.get_sprite(64, 64, 192, 128)
+        self.music_options.get_sprite(64, 64, 0, 192)
+        self.music_options.get_sprite(64, 64, 64, 192)
+        self.music_options.get_sprite(64, 64, 128, 192)
+        self.music_options.get_sprite(64, 64, 192, 192)
+        self.music_options.get_sprite(64, 64, 0, 256)
+        self.music_options.get_sprite(64, 64, 64, 256)
+        self.music_options.get_sprite(64, 64, 128, 256)
         self.credits_bg.get_sprite(900, 900, 0, 0)
         self.credits_bg.get_sprite(900, 900, 900, 0)
         self.credits_bg.get_sprite(900, 900, 0, 900)
@@ -375,6 +377,8 @@ class GameStage:
                         self.stage = 0
                         self.reset(0)
                         return
+                    if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
+                        self.music_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
@@ -382,17 +386,27 @@ class GameStage:
             self.stage = 6
             return
         self.panda.update(0.08)
-        self.music_options.update(.5, 1)
-        self.sound_options.update(.1, 1)
-
+        if self.music_playing:
+            self.music_options.update(.5, 1)
+            self.sound_options.update(.1, 1)
         draw_img(self.panda.image, int(450 / 2 - AX / 2), 70)
-        draw_img(self.music_options.image, 500)
-        draw_img(self.sound_options.image, 600)
+        draw_img(self.music_options.image, 780)
+        draw_img(self.sound_options.image, 840)
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
         draw_img(text, 450 / 2 - text.get_width() / 2, 400)
         self.draw_figure(1)
         clock.tick(30)
         pygame.display.flip()
+
+    def music_toggle(self):
+        if self.music_playing:
+            self.music_options.current_sprite = 13
+            self.music_options.update(1)
+            self.music_playing = False
+            print('Musica Apagada')
+        else:
+            self.music_playing = True
+            print('Musica encendida')
 
     # level 2
     def level_2(self):
@@ -430,6 +444,8 @@ class GameStage:
                         self.stage = 0
                         self.reset(0)
                         return
+                    if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
+                        self.music_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
@@ -437,7 +453,12 @@ class GameStage:
             self.stage = 6
             return
         self.tiger.update(0.08)
+        if self.music_playing:
+            self.music_options.update(.5, 1)
+            self.sound_options.update(.1, 1)
         draw_img(self.tiger.image, int(450 / 2 - AX / 2))
+        draw_img(self.music_options.image, 780)
+        draw_img(self.sound_options.image, 840)
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
         draw_img(text, 450 / 2 - text.get_width() / 2, 300)
         if 10 <= self.figures[self.actual_figure] <= 13:
@@ -482,6 +503,8 @@ class GameStage:
                         self.stage = 0
                         self.reset(0)
                         return
+                    if 796 <= mouse_pos[0] <= 824 and 13 <= mouse_pos[1] <= 47:
+                        self.music_toggle()
         if self.corrects == 9:
             self.stage = 5  # takes to victory
             return
@@ -489,7 +512,12 @@ class GameStage:
             self.stage = 6
             return
         self.sloth.update(0.08)
+        if self.music_playing:
+            self.music_options.update(.5, 1)
+            self.sound_options.update(.1, 1)
         draw_img(self.sloth.image, int(450 / 2 - AX / 2))
+        draw_img(self.music_options.image, 780)
+        draw_img(self.sound_options.image, 840)
         text = font.render(f'{figures[self.figures[self.actual_figure]]}', False, (255, 255, 255))
         draw_img(text, 450 / 2 - text.get_width() / 2, 300)
         if 10 <= self.figures[self.actual_figure] <= 13:
