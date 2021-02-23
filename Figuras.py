@@ -384,6 +384,7 @@ class GameStage:
         self.panda.update(0.08)
         self.music_options.update(.5, 1)
         self.sound_options.update(.1, 1)
+
         draw_img(self.panda.image, int(450 / 2 - AX / 2), 70)
         draw_img(self.music_options.image, 500)
         draw_img(self.sound_options.image, 600)
