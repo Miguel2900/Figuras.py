@@ -258,7 +258,7 @@ class GameStage:
             y = 0
             self.reset(0)  # returns to menu
         else:
-            y += -1
+            y += -1.5
         clock.tick(30)
         return y
 
