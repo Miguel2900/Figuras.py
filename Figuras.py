@@ -161,6 +161,7 @@ class GameStage:
         self.play_sound(error)
         pygame.display.flip()
         pygame.time.delay(1000)
+        pygame.event.clear()
         return
 
     # reset values in order to proceed
