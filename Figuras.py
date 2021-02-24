@@ -1,7 +1,7 @@
 import pygame
 import random
 
-# screen parameters
+# screen parameters   hola dany
 SIZE = (900, 500)
 screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption('MIS PRIMERAS FIGURAS')
