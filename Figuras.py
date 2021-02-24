@@ -254,11 +254,11 @@ class GameStage:
             if event.type == pygame.QUIT:
                 self.stage = 0  # returns to menu
                 return 0
-        if y == -2480:  # stops drawing the image
+        if y == -4500:  # stops drawing the image
             y = 0
             self.reset(0)  # returns to menu
         else:
-            y += -10
+            y += -1
         clock.tick(30)
         return y
 
