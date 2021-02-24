@@ -17,9 +17,9 @@ level3_bg = pygame.image.load('Dificil.png')  # image for the level 3 background
 victory_bg = pygame.image.load('PantallaGanado.png')  # image for the victory background
 defeat_bg = pygame.image.load('PantallaPerdido.png')  # image for the defeat background
 credits_img = pygame.image.load('TextoCreditos.png')  # image for the credits background
-rules_bg = pygame.image.load('Reglas.png') # images for the rules background
+rules_bg = pygame.image.load('Reglas.png')  # images for the rules background
 
-#sounds
+# sounds
 click = pygame.mixer.Sound('click_sound.wav')
 click.set_volume(.3)
 correct = pygame.mixer.Sound('correct_sound.wav')
@@ -185,7 +185,7 @@ class GameStage:
     # toggles the music on and off
     def music_toggle(self):
         if self.music_playing:
-            self.music_options.current_sprite = 13 #
+            self.music_options.current_sprite = 13
             self.music_options.update(1)
             self.music_playing = False
             pygame.mixer.music.pause()
@@ -225,6 +225,7 @@ class GameStage:
         # draws medal according to error value, 0 - gold, 1 - silver, 2 - bronze
         draw_img(self.medal.sprites[(self.errors - 2) * (-1)], int(450 - AX / 2), int(250 - AY / 2 + 50))
         pygame.display.flip()
+        clock.tick(30)
 
     # shows the defeat screen
     def defeat(self):
@@ -241,6 +242,7 @@ class GameStage:
                     if 622 <= mouse_pos[0] <= 875 and 456 <= mouse_pos[1] <= 475:
                         self.reset(self.actual_stage)
         pygame.display.flip()
+        clock.tick(30)
 
     # show credits
     def credits(self, y):
@@ -252,11 +254,11 @@ class GameStage:
             if event.type == pygame.QUIT:
                 self.stage = 0  # returns to menu
                 return 0
-        if y == -2480: # stops drawing the image
+        if y == -2480:  # stops drawing the image
             y = 0
             self.reset(0)  # returns to menu
         else:
-            y += -.8
+            y += -10
         clock.tick(30)
         return y
 
@@ -293,8 +295,9 @@ class GameStage:
                     if 693 <= mouse_pos[0] <= 878 and 462 <= mouse_pos[1] <= 481:
                         self.stage = 1
         pygame.display.flip()
+        clock.tick(30)
 
-    #*******************************Main stages***********************************************
+    # *******************************Main stages***********************************************
     # main menu
     def menu(self):
         draw_img(menu_bg)
